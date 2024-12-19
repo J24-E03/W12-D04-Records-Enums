@@ -4,10 +4,6 @@ import org.dcistudent.models.records.Author;
 import org.dcistudent.models.records.Book;
 
 public class BookService {
-    public static void main(String[] args) {
-        new BookService();
-    }
-
     public BookService() {
         Author author1 = new Author("John Doe", 1986, "Internationalist");
         Author author2 = new Author("Jane Doe", 1988, "Internationalist");

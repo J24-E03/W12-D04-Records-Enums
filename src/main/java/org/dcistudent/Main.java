@@ -3,6 +3,7 @@ package org.dcistudent;
 import org.dcistudent.models.BankAccount;
 import org.dcistudent.models.enums.AccountType;
 import org.dcistudent.services.BankingService;
+import org.dcistudent.services.BookService;
 
 public class Main {
     public static void main(String[] args) {
@@ -10,10 +11,10 @@ public class Main {
     }
 
     public Main() {
-        BankingService service = new BankingService();
-        BankAccount account1 = service.createSilverAccount();
-        BankAccount account2 = service.createGoldAccount();
-        BankAccount account3 = service.createPlatinumAccount();
+        BankingService bankingService = new BankingService();
+        BankAccount account1 = bankingService.createSilverAccount();
+        BankAccount account2 = bankingService.createGoldAccount();
+        BankAccount account3 = bankingService.createPlatinumAccount();
 
         System.out.println("Account type and their limits:");
         for (AccountType accountType : AccountType.values()) {
@@ -50,12 +51,15 @@ public class Main {
 
         System.out.println("\n================================================================================\n");
 
-        service.transferFunds(account1.getAccountNumber(), account2.getAccountNumber(), 100.0);
-        service.transferFunds(account2.getAccountNumber(), account3.getAccountNumber(), 200.0);
-        service.transferFunds(account3.getAccountNumber(), account1.getAccountNumber(), 300.0);
+        bankingService.transferFunds(account1.getAccountNumber(), account2.getAccountNumber(), 100.0);
+        bankingService.transferFunds(account2.getAccountNumber(), account3.getAccountNumber(), 200.0);
+        bankingService.transferFunds(account3.getAccountNumber(), account1.getAccountNumber(), 300.0);
 
         System.out.println("Account 1: " + account1.getAccountNumber() + " " + account1.getAccountType() + " " + account1.getBalance());
         System.out.println("Account 2: " + account2.getAccountNumber() + " " + account2.getAccountType() + " " + account2.getBalance());
         System.out.println("Account 3: " + account3.getAccountNumber() + " " + account3.getAccountType() + " " + account3.getBalance());
+
+        System.out.println("\n================================================================================\n");
+        new BookService();
     }
 }
