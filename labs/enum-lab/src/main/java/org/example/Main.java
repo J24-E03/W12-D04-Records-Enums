@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.concurrent.ExecutionException;
+
 public class Main {
     private static BankingSystem bankingSystem;
     public static void main(String[] args) {
@@ -52,7 +54,6 @@ public class Main {
             System.out.println("Withdrawal error: " + e.getMessage());
         }
 
-
         // test transfer
         System.out.println("\nTest Transfer:");
         try {
@@ -66,6 +67,24 @@ public class Main {
             bankingSystem.transferFunds("ACC1003", "ACC1001", 31000);
         } catch (IllegalArgumentException e) {
             System.out.println("Transfer error: " + e.getMessage());
+        }
+
+        // test transaction history
+        try {
+            BankAccount account = bankingSystem.getAccount("ACC1001");
+            System.out.println("\nAll transactions for Account: " + account.getAccountNumber());
+            bankingSystem.viewAccountTransactions(account.getAccountNumber());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        // test closing an account
+        try {
+            BankAccount account = bankingSystem.getAccount("ACC1002");
+            System.out.println("\nClosing Account: " + account.getAccountNumber());
+            bankingSystem.closeAccount(account.getAccountNumber());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
 
 

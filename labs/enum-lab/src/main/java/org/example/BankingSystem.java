@@ -31,20 +31,48 @@ public class BankingSystem {
     }
 
     public void transferFunds(String fromAccountNumber, String toAccountNumber, double amount) {
-        BankAccount sender = getAccount(fromAccountNumber);
-        BankAccount receiver = getAccount(toAccountNumber);
-
-        if (amount > sender.getAccountType().getWithdrawLimit()) {
-            throw new IllegalArgumentException("Amount exceeds the withdraw limit of sender account.");
-        }
-        if (sender.getBalance() < amount) {
-            throw new IllegalArgumentException("Sender account has insufficient balance.");
-        }
-        if (amount > receiver.getAccountType().getDepositLimit()) {
-            throw new IllegalArgumentException("Amount exceeds the deposit limit of receiver account.");
+        if (!accountMap.containsKey(fromAccountNumber)) {
+            throw new IllegalArgumentException("Sender account is invalid!");
         }
 
-        sender.withdraw(amount);
-        receiver.deposit(amount);
+        if (!accountMap.containsKey(toAccountNumber)) {
+            throw new IllegalArgumentException("Receiver account is invalid!");
+        }
+
+        BankAccount fromAccount = getAccount(fromAccountNumber);
+        BankAccount toAccount = getAccount(toAccountNumber);
+
+        if (amount > fromAccount.getAccountType().getWithdrawLimit()) {
+            throw new IllegalArgumentException("The amount exceeds the withdraw limit of the sender account");
+        }
+
+        if (amount > fromAccount.getBalance()) {
+            throw new IllegalArgumentException("Balance is not enough.");
+        }
+
+        if (amount > toAccount.getAccountType().getDepositLimit()) {
+            throw new IllegalArgumentException("The amount exceeds the deposit limit of the receiver account");
+        }
+
+        fromAccount.withdraw(amount);
+        toAccount.deposit(amount);
+    }
+    public void closeAccount(String accountNumber) {
+        if (!accountMap.containsKey(accountNumber)) {
+            throw new IllegalArgumentException("Account not found.");
+        }
+        accountMap.remove(accountNumber);
+        System.out.println("Account: " + accountNumber + " was successfully closed.");
+    }
+
+    public void viewAccountTransactions(String accountNumber) {
+        if (!accountMap.containsKey(accountNumber)) {
+            throw new IllegalArgumentException("Account not found.");
+        }
+        BankAccount account = accountMap.get(accountNumber);
+        System.out.println("Transactions for Account " + accountNumber + ":");
+        for (String transaction : account.getTransactions()) {
+            System.out.println(transaction);
+        }
     }
 }

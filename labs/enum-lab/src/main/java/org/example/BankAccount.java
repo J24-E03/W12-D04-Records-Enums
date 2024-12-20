@@ -1,14 +1,19 @@
 package org.example;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BankAccount {
     private String accountNumber;
     private AccountType accountType;
     private double balance;
+    private List<String> transactions;
 
     public BankAccount(String accountNumber, AccountType accountType, double balance) {
         this.accountNumber = accountNumber;
         this.accountType = accountType;
         this.balance = balance;
+        this.transactions = new ArrayList<>();
     }
 
     public String getAccountNumber() {
@@ -35,11 +40,16 @@ public class BankAccount {
         this.balance = balance;
     }
 
+    public List<String> getTransactions() {
+        return new ArrayList<>(transactions);
+    }
+
     public void deposit(double amount) {
         if (amount > accountType.getDepositLimit()) {
             throw new IllegalArgumentException("Amount exceeds the deposit limit.");
         }
         balance += amount;
+        transactions.add("Deposit: $" + amount);
     }
 
     public void withdraw(double amount) {
@@ -50,6 +60,7 @@ public class BankAccount {
             throw new IllegalArgumentException("Insufficient balance.");
         }
         balance -= amount;
+        transactions.add("Withdrawal: $" + amount);
     }
 
     @Override
